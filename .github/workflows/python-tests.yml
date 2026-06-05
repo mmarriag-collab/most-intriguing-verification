@@ -42,11 +42,16 @@ jobs:
 
       - name: Generate polynomial vector
         run: |
+          if [ "${{ github.event.inputs.format || 'latex' }}" = "latex" ]; then
+            extension="tex"
+          else
+            extension="txt"
+          fi
           python show_polynomials.py \
             --degree "${{ github.event.inputs.degree || '4' }}" \
             --method "${{ github.event.inputs.method || 'operational' }}" \
             --format "${{ github.event.inputs.format || 'latex' }}" \
-            --output "Q_${{ github.event.inputs.degree || '4' }}.${{ github.event.inputs.format || 'latex' == 'latex' && 'tex' || 'txt' }}"
+            --output "Q_${{ github.event.inputs.degree || '4' }}.${extension}"
 
       - name: Upload generated polynomial vector
         uses: actions/upload-artifact@v4
