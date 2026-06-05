@@ -31,6 +31,33 @@ The implementation compares three exact constructions of the same polynomial:
    exponential is finite on polynomials.
 3. Hypergeometric/Horn finite formula, implemented as an exact finite sum.
 
+
+## Displaying the three constructions
+
+To display the three separately computed constructions side by side, use
+`show_three_constructions.py`.  The table includes the Matrix Rodrigues,
+operational, and hypergeometric/Horn expressions for every `0 <= k <= n`, plus
+the simplified difference columns `Rod - op` and `op - hyp`.
+
+The default command uses `--degree 3` and `--format latex`; omit `--output` to
+print to standard output.  Use `latex_blocks` for larger degrees when a single
+LaTeX table is too wide.
+
+Examples:
+
+```bash
+python show_three_constructions.py --degree 3 --format plain
+python show_three_constructions.py --degree 4 --format latex_blocks --output Q4.tex
+python show_three_constructions.py --degree 5 --format markdown --output Q5.md
+```
+
+Optional expression style flags are available:
+
+```bash
+python show_three_constructions.py --degree 5 --format latex --expanded
+python show_three_constructions.py --degree 5 --format markdown --factored
+```
+
 ## Running Tests
 
 Install dependencies and run:
