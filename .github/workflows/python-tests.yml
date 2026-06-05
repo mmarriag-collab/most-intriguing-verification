@@ -7,16 +7,12 @@ on:
     inputs:
       degree:
         description: "Degree n for Q_n"
-        required: true
-        default: "4"
-      method:
-        description: "Construction method: operational, rodrigues, or hyper"
-        required: true
-        default: "operational"
+        required: false
+        default: "3"
       format:
-        description: "Output format: latex or plain"
-        required: true
-        default: "latex"
+        description: "Output format: latex, latex_blocks, markdown, or plain"
+        required: false
+        default: "latex_blocks"
 
 jobs:
   test-and-generate:
@@ -40,21 +36,15 @@ jobs:
         run: |
           python -m pytest -q
 
-      - name: Generate polynomial vector
+      - name: Generate three-constructions output
         run: |
-          if [ "${{ github.event.inputs.format || 'latex' }}" = "latex" ]; then
-            extension="tex"
-          else
-            extension="txt"
-          fi
-          python show_polynomials.py \
-            --degree "${{ github.event.inputs.degree || '4' }}" \
-            --method "${{ github.event.inputs.method || 'operational' }}" \
-            --format "${{ github.event.inputs.format || 'latex' }}" \
-            --output "Q_${{ github.event.inputs.degree || '4' }}.${extension}"
+          python show_three_constructions.py \
+            --degree "${{ github.event.inputs.degree || '3' }}" \
+            --format "${{ github.event.inputs.format || 'latex_blocks' }}" \
+            --output "Q_three_constructions_output.txt"
 
-      - name: Upload generated polynomial vector
+      - name: Upload three-constructions output
         uses: actions/upload-artifact@v4
         with:
-          name: generated-polynomials
-          path: Q_*
+          name: three-constructions-degree-${{ github.event.inputs.degree || '3' }}
+          path: Q_three_constructions_output.txt

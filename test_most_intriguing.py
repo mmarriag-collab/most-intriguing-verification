@@ -118,3 +118,20 @@ def test_optional_slow_degree_8():
             assert_zero(Q_operational(n, k) - Q_hyper(n, k))
             assert_zero(L_op(Q_operational(n, k)) + n * Q_operational(n, k))
             assert_zero(Q_operational(n, k) - Q_from_generating(n, k))
+
+
+def test_show_three_constructions_plain_cli_labels_and_polynomial():
+    import subprocess
+    import sys
+
+    result = subprocess.run(
+        [sys.executable, "show_three_constructions.py", "--degree", "3", "--format", "plain"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    output = result.stdout
+    assert "Q_{3,0}^{Rod}" in output
+    assert "Q_{3,0}^{op}" in output
+    assert "Q_{3,0}^{hyp}" in output
+    assert "-x**3 + 18*x*y - 12" in output
