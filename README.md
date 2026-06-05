@@ -31,6 +31,29 @@ The implementation compares three exact constructions of the same polynomial:
    exponential is finite on polynomials.
 3. Hypergeometric/Horn finite formula, implemented as an exact finite sum.
 
+
+## Displaying the three constructions
+
+Use `show_three_constructions.py` to print the separately computed Matrix
+Rodrigues, operational, and hypergeometric/Horn formulas for every
+`k = 0, 1, ..., n` in one selected degree.  The output includes the expanded
+and simplified difference columns `Rod - op` and `op - hyp`, so matching
+formulas still show all three symbolic expressions rather than suppressing
+duplicates.
+
+By default, the script uses `--degree 3`, `--format latex`, and expanded
+polynomial expressions.  Use `--factored` to display factored forms when SymPy
+can factor them.  The `latex_blocks` format is recommended for larger degrees
+because it prints one display block per construction.
+
+Examples:
+
+```bash
+python show_three_constructions.py --degree 3 --format plain
+python show_three_constructions.py --degree 4 --format latex_blocks --output Q4.tex
+python show_three_constructions.py --degree 5 --format markdown --output Q5.md
+```
+
 ## Running Tests
 
 Install dependencies and run:
