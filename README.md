@@ -96,10 +96,12 @@ but this is not a replacement for a mathematical proof.
 
 ## Running the web app
 
-The Streamlit app provides an interactive view of the Rodrigues, operational,
-and hypergeometric/Horn constructions for every component of a selected degree.
-It supports expanded or factored output, side-by-side, tabbed, and comparison
-views, exact difference checks, and LaTeX, Markdown, or plain-text downloads.
+The Streamlit app provides a formula-first interactive view of the Rodrigues,
+operational, and hypergeometric/Horn constructions for every component of a
+selected degree. It displays the basic data, all three construction formulas,
+the selected second-kind Kronecker power matrix, tabbed polynomial vectors, and
+exact difference checks. LaTeX, Markdown, and plain-text downloads include both
+the formulas and the computed polynomials.
 
 Install the dependencies and launch it from the repository root:
 

@@ -146,3 +146,31 @@ def test_streamlit_helper_degree_three_contains_expected_polynomial():
     assert expand(rows[0]["rod"] - expected) == 0
     assert expand(rows[0]["op"] - expected) == 0
     assert expand(rows[0]["hyp"] - expected) == 0
+
+
+def test_latex_export_degree_three_contains_formulas_matrix_and_polynomials():
+    from streamlit_app import build_latex_export, compute_three_constructions
+
+    rows = compute_three_constructions(3, "expanded")
+    output = build_latex_export(3, rows, "expanded")
+
+    assert r"\Phi^{\{3\}}" in output
+    assert r"Q_{3,0}^{\mathrm{Rod}}" in output
+    assert r"Q_{3,0}^{\mathrm{op}}" in output
+    assert r"Q_{3,0}^{\mathrm{hyp}}" in output
+    assert r"- x^{3} + 18 x y - 12" in output
+
+
+def test_matrix_to_latex_for_second_kind_degree_two():
+    from most_intriguing import Phi_second_kind
+    from streamlit_app import matrix_to_latex
+
+    output = matrix_to_latex(Phi_second_kind(2))
+
+    assert r"9 y^{2} & 6 y & 1" in output
+    assert r"3 y & 1 & 0" in output
+    assert r"1 & 0 & 0" in output
+    assert output == (
+        r"\begin{pmatrix}9 y^{2} & 6 y & 1\\"
+        r"3 y & 1 & 0\\1 & 0 & 0\end{pmatrix}"
+    )
