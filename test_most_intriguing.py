@@ -135,3 +135,14 @@ def test_show_three_constructions_plain_cli_labels_and_polynomial():
     assert "Q_{3,0}^{op}" in output
     assert "Q_{3,0}^{hyp}" in output
     assert "-x**3 + 18*x*y - 12" in output
+
+
+def test_streamlit_helper_degree_three_contains_expected_polynomial():
+    from streamlit_app import compute_three_constructions
+
+    rows = compute_three_constructions(3, "expanded")
+    expected = -x**3 + 18 * x * y - 12
+
+    assert expand(rows[0]["rod"] - expected) == 0
+    assert expand(rows[0]["op"] - expected) == 0
+    assert expand(rows[0]["hyp"] - expected) == 0

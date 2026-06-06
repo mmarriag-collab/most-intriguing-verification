@@ -93,3 +93,25 @@ MOST_INTRIGUING_N=8 python -m pytest -q
 This project is a symbolic verification tool.  Passing tests provide strong
 computer-algebra evidence for the listed identities through the selected degree,
 but this is not a replacement for a mathematical proof.
+
+## Running the web app
+
+The Streamlit app provides an interactive view of the Rodrigues, operational,
+and hypergeometric/Horn constructions for every component of a selected degree.
+It supports expanded or factored output, side-by-side, tabbed, and comparison
+views, exact difference checks, and LaTeX, Markdown, or plain-text downloads.
+
+Install the dependencies and launch it from the repository root:
+
+```bash
+python -m pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+The default degree is `n=3`. The interactive selector supports degrees through
+`n=8`; the highest degrees may take longer because all expressions are computed
+symbolically and exactly.
+
+The app can also be deployed directly from this GitHub repository with
+[Streamlit Community Cloud](https://streamlit.io/cloud): choose the repository,
+branch, and `streamlit_app.py` as the entrypoint.
