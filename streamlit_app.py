@@ -36,7 +36,7 @@ RODRIGUES_COMPONENT_LATEX = (
     r"\left((\Phi^{n})_{i,k}\right)."
 )
 GAUGE_DERIVATIVES_LATEX = (
-    r"D_x^\omega(p)=\partial_xp-yp,\quad"
+    r"D_x^\omega(p)=\partial_xp-yp,\quad "
     r"D_y^\omega(p)=\partial_yp+(3y^2-x)p."
 )
 GAUGE_IDENTITY_LATEX = (
