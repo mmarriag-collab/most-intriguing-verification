@@ -149,16 +149,71 @@ def test_streamlit_helper_degree_three_contains_expected_polynomial():
 
 
 def test_latex_export_degree_three_contains_formulas_matrix_and_polynomials():
-    from streamlit_app import build_latex_export, compute_three_constructions
+    from streamlit_app import HYPER_FORMULA_LATEX, build_latex_export, compute_three_constructions
 
     rows = compute_three_constructions(3, "expanded")
     output = build_latex_export(3, rows, "expanded")
 
     assert r"\Phi^{\{3\}}" in output
+    assert r"Q_{n,k}^{\mathrm{Rod}}" in output
+    assert r"Q_{n,k}^{\mathrm{op}}" in output
+    assert HYPER_FORMULA_LATEX in output
     assert r"Q_{3,0}^{\mathrm{Rod}}" in output
     assert r"Q_{3,0}^{\mathrm{op}}" in output
     assert r"Q_{3,0}^{\mathrm{hyp}}" in output
     assert r"- x^{3} + 18 x y - 12" in output
+    assert "\\" + "qquad" not in output
+    assert r"\sum_{n\geq0}\frac{1}{n!}\sum_{k=0}^n" not in output
+    assert r"\exp(-ax-by-3a^2y" + "-ab-2a^3)" not in output
+    assert "Ho" + "rn" not in output
+
+
+def test_all_streamlit_exports_keep_required_content_and_omit_removed_content():
+    from streamlit_app import (
+        build_latex_export,
+        build_markdown_export,
+        build_text_export,
+        compute_three_constructions,
+    )
+
+    rows = compute_three_constructions(3, "expanded")
+    outputs = [
+        build_latex_export(3, rows, "expanded"),
+        build_markdown_export(3, rows, "expanded"),
+        build_text_export(3, rows, "expanded"),
+    ]
+
+    for output in outputs:
+        assert "Rod" in output
+        assert "op" in output
+        assert "hyp" in output
+        assert "Hypergeometric-type expression" in output
+        assert "2i+j+3" in output
+        assert "j" in output and "k" in output
+        assert "Ho" + "rn" not in output
+        assert "Generating function" not in output
+        assert "exp(-ax-by-3a^2y" + "-ab-2a^3)" not in output
+        assert "exp(-a*x-b*y-3*a**2*y" + "-a*b-2*a**3)" not in output
+
+
+def test_streamlit_app_uses_clean_hypergeometric_label_and_no_removed_formula():
+    from streamlit.testing.v1 import AppTest
+
+    app = AppTest.from_file("streamlit_app.py", default_timeout=30).run()
+    latex_output = "\n".join(element.value for element in app.latex)
+
+    assert not app.exception
+    assert [tab.label for tab in app.tabs] == [
+        "Rodrigues",
+        "Operational",
+        "Hypergeometric",
+        "Comparison",
+    ]
+    assert "E. Hypergeometric-type expression" in [heading.value for heading in app.subheader]
+    assert r"Q_{n,k}^{\mathrm{hyp}}(x,y)=n!" in latex_output
+    assert "\\" + "qquad" not in latex_output
+    assert "Ho" + "rn" not in latex_output
+    assert "exp(-ax-by-3a^2y" + "-ab-2a^3)" not in latex_output
 
 
 def test_matrix_to_latex_for_second_kind_degree_two():

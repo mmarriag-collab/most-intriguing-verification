@@ -146,7 +146,9 @@ def render_latex_blocks(degree: int, rows: list[ConstructionRow]) -> str:
                 f"Q_{{{degree},{row.k}}}^{{\\mathrm{{hyp}}}}={latex(row.hyper)}",
                 "\\]",
                 "\\[",
-                f"Q_{{{degree},{row.k}}}^{{\\mathrm{{Rod}}}}-Q_{{{degree},{row.k}}}^{{\\mathrm{{op}}}}={latex(row.rod_minus_op)},\\qquad",
+                f"Q_{{{degree},{row.k}}}^{{\\mathrm{{Rod}}}}-Q_{{{degree},{row.k}}}^{{\\mathrm{{op}}}}={latex(row.rod_minus_op)}.",
+                "\\]",
+                "\\[",
                 f"Q_{{{degree},{row.k}}}^{{\\mathrm{{op}}}}-Q_{{{degree},{row.k}}}^{{\\mathrm{{hyp}}}}={latex(row.op_minus_hyp)}.",
                 "\\]",
             ]
