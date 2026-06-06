@@ -16,14 +16,14 @@ MAX_DEGREE = 8
 
 PHI_AND_WEIGHT_LATEX = (
     r"\Phi=\begin{pmatrix}3y&1\\1&0\end{pmatrix},"
-    r"\qquad \omega(x,y)=e^{y^3-xy}."
+    r"\quad \omega(x,y)=e^{y^3-xy}."
 )
 L_OPERATOR_LATEX = (
     r"L=3y\partial_x^2+2\partial_x\partial_y-x\partial_x-y\partial_y."
 )
 INDEXING_LATEX = (
     r"Q_{n,k}\quad\text{corresponds to}\quad x^{n-k}y^k,"
-    r"\qquad 0\leq k\leq n."
+    r"\quad 0\leq k\leq n."
 )
 RODRIGUES_VECTOR_LATEX = (
     r"\mathbf Q_n^{\mathrm{Rod}}(x,y)^t="
@@ -36,14 +36,14 @@ RODRIGUES_COMPONENT_LATEX = (
     r"\left((\Phi^{n})_{i,k}\right)."
 )
 GAUGE_DERIVATIVES_LATEX = (
-    r"D_x^\omega(p)=\partial_xp-yp,\qquad"
+    r"D_x^\omega(p)=\partial_xp-yp,\quad"
     r"D_y^\omega(p)=\partial_yp+(3y^2-x)p."
 )
 GAUGE_IDENTITY_LATEX = (
-    r"\frac{1}{\omega}\partial_x(p\omega)=D_x^\omega(p),\qquad"
+    r"\frac{1}{\omega}\partial_x(p\omega)=D_x^\omega(p),\quad"
     r"\frac{1}{\omega}\partial_y(p\omega)=D_y^\omega(p)."
 )
-KRONECKER_VARIABLES_LATEX = r"z_1=3yt_1+t_2,\qquad z_2=t_1."
+KRONECKER_VARIABLES_LATEX = r"z_1=3yt_1+t_2,\quad z_2=t_1."
 KRONECKER_DEFINITION_LATEX = (
     r"(\Phi^{n})_{i,j}=[t_1^{n-j}t_2^j]\,z_1^{n-i}z_2^i."
 )
@@ -63,12 +63,6 @@ HYPER_FORMULA_LATEX = (
     r"\frac{(-x)^{n-k-2i-j-3\ell}(-y)^{k-j}(-3y)^i(-1)^j(-2)^\ell}"
     r"{(n-k-2i-j-3\ell)!(k-j)!i!j!\ell!}."
 )
-GENERATING_FUNCTION_LATEX = (
-    r"\sum_{n\geq0}\frac{1}{n!}\sum_{k=0}^n"
-    r"a^{n-k}b^kQ_{n,k}(x,y)="
-    r"\exp(-ax-by-3a^2y-ab-2a^3)."
-)
-
 
 def _validate_style(style: str) -> str:
     normalized = style.lower()
@@ -162,9 +156,8 @@ def build_latex_export(n: int, rows: list[dict[str, Any]], style: str) -> str:
         *_latex_display(OPERATIONAL_FORMULA_LATEX),
         *_latex_display(EXPONENTIAL_SERIES_LATEX),
         r"The series is finite on polynomials because $\mathcal R$ lowers total degree.",
-        r"\subsection*{Hypergeometric/Horn formula}",
+        r"\subsection*{Hypergeometric-type expression}",
         *_latex_display(HYPER_FORMULA_LATEX),
-        *_latex_display(GENERATING_FUNCTION_LATEX),
         r"\section*{Polynomial vectors}",
         *_latex_display(_vector_latex(n, rows, "rod", "Rod", style)),
         *_latex_display(_vector_latex(n, rows, "op", "op", style)),
@@ -186,7 +179,9 @@ def build_latex_export(n: int, rows: list[dict[str, Any]], style: str) -> str:
                 ),
                 *_latex_display(
                     rf"Q_{{{n},{k}}}^{{\mathrm{{Rod}}}}-Q_{{{n},{k}}}^{{\mathrm{{op}}}}"
-                    rf"={latex(row['diff_rod_op'])},\qquad "
+                    rf"={latex(row['diff_rod_op'])}."
+                ),
+                *_latex_display(
                     rf"Q_{{{n},{k}}}^{{\mathrm{{op}}}}-Q_{{{n},{k}}}^{{\mathrm{{hyp}}}}"
                     rf"={latex(row['diff_op_hyp'])}."
                 ),
@@ -227,9 +222,8 @@ def build_markdown_export(n: int, rows: list[dict[str, Any]], style: str) -> str
         f"$${EXPONENTIAL_SERIES_LATEX}$$",
         "The sum is finite on polynomials because $\\mathcal R$ lowers total degree.",
         "",
-        "### Hypergeometric/Horn formula",
+        "### Hypergeometric-type expression",
         f"$${HYPER_FORMULA_LATEX}$$",
-        f"$${GENERATING_FUNCTION_LATEX}$$",
         "",
         "## Polynomial vectors",
         f"$${_vector_latex(n, rows, 'rod', 'Rod', style)}$$",
@@ -249,8 +243,10 @@ def build_markdown_export(n: int, rows: list[dict[str, Any]], style: str) -> str
                 rf"$$Q_{{{n},{k}}}^{{\mathrm{{hyp}}}}={polynomial_to_latex(row['hyp'], style)}$$",
                 (
                     rf"$$Q_{{{n},{k}}}^{{\mathrm{{Rod}}}}-Q_{{{n},{k}}}^{{\mathrm{{op}}}}"
-                    rf"={latex(row['diff_rod_op'])},\qquad "
-                    rf"Q_{{{n},{k}}}^{{\mathrm{{op}}}}-Q_{{{n},{k}}}^{{\mathrm{{hyp}}}}"
+                    rf"={latex(row['diff_rod_op'])}.$$"
+                ),
+                (
+                    rf"$$Q_{{{n},{k}}}^{{\mathrm{{op}}}}-Q_{{{n},{k}}}^{{\mathrm{{hyp}}}}"
                     rf"={latex(row['diff_op_hyp'])}.$$"
                 ),
                 "",
@@ -285,12 +281,10 @@ def build_text_export(n: int, rows: list[dict[str, Any]], style: str) -> str:
         "Q_{n,k}^op = (-1)^n exp(-R)[binomial(n,k)*x**(n-k)*y**k]",
         "exp(-R)p = sum_{m>=0} (-1)^m R^m(p)/m! (finite on polynomials)",
         "",
-        "Hypergeometric/Horn:",
+        "Hypergeometric-type expression:",
         "Q_{n,k}^hyp = n! sum_{i,j,ell>=0; 2i+j+3ell<=n-k; j<=k} "
         "(-x)^(n-k-2i-j-3ell)*(-y)^(k-j)*(-3y)^i*(-1)^j*(-2)^ell / "
         "((n-k-2i-j-3ell)!*(k-j)!*i!*j!*ell!)",
-        "Generating function: sum_n 1/n! sum_k a^(n-k)b^k Q_{n,k} "
-        "= exp(-a*x-b*y-3*a**2*y-a*b-2*a**3)",
         "",
         "POLYNOMIALS AND DIFFERENCE CHECKS",
     ]
@@ -337,7 +331,6 @@ def _render_operational_formula() -> None:
 
 def _render_hyper_formula() -> None:
     st.latex(HYPER_FORMULA_LATEX)
-    st.latex(GENERATING_FUNCTION_LATEX)
 
 
 def _render_formulas_used(n: int) -> None:
@@ -368,7 +361,7 @@ def _render_formulas_used(n: int) -> None:
     st.subheader("D. Operational formula")
     _render_operational_formula()
 
-    st.subheader("E. Hypergeometric/Horn formula")
+    st.subheader("E. Hypergeometric-type expression")
     _render_hyper_formula()
 
 
@@ -381,20 +374,19 @@ def _show_vector(rows: list[dict[str, Any]], key: str, label: str, n: int, style
 
 
 def _render_comparison(n: int, rows: list[dict[str, Any]]) -> None:
-    st.latex(
-        r"Q_{n,k}^{\mathrm{Rod}}-Q_{n,k}^{\mathrm{op}},\qquad"
-        r"Q_{n,k}^{\mathrm{op}}-Q_{n,k}^{\mathrm{hyp}}."
-    )
+    st.latex(r"Q_{n,k}^{\mathrm{Rod}}-Q_{n,k}^{\mathrm{op}}")
+    st.latex(r"Q_{n,k}^{\mathrm{op}}-Q_{n,k}^{\mathrm{hyp}}")
     all_zero = True
     for row in rows:
         k = row["k"]
         first = row["diff_rod_op"]
         second = row["diff_op_hyp"]
-        comparison_latex = (
-            rf"Q_{{{n},{k}}}^{{\mathrm{{Rod}}}}-Q_{{{n},{k}}}^{{\mathrm{{op}}}}={latex(first)},"
-            rf"\qquad Q_{{{n},{k}}}^{{\mathrm{{op}}}}-Q_{{{n},{k}}}^{{\mathrm{{hyp}}}}={latex(second)}."
+        st.latex(
+            rf"Q_{{{n},{k}}}^{{\mathrm{{Rod}}}}-Q_{{{n},{k}}}^{{\mathrm{{op}}}}={latex(first)}"
         )
-        st.latex(comparison_latex)
+        st.latex(
+            rf"Q_{{{n},{k}}}^{{\mathrm{{op}}}}-Q_{{{n},{k}}}^{{\mathrm{{hyp}}}}={latex(second)}"
+        )
         if first != 0 or second != 0:
             all_zero = False
             st.error(f"The constructions differ for k = {k}.")
@@ -405,7 +397,7 @@ def _render_comparison(n: int, rows: list[dict[str, Any]]) -> None:
 def _render_polynomial_tabs(n: int, rows: list[dict[str, Any]], style: str) -> None:
     st.header("Polynomial output")
     rod_tab, op_tab, hyp_tab, comparison_tab = st.tabs(
-        ["Rodrigues", "Operational", "Hypergeometric/Horn", "Comparison"]
+        ["Rodrigues", "Operational", "Hypergeometric", "Comparison"]
     )
     with rod_tab:
         _render_rodrigues_formula(n)

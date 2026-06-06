@@ -113,7 +113,7 @@ def Q_operational(n: int, k: int):
 
 @lru_cache(maxsize=None)
 def Q_hyper(n: int, k: int):
-    """Finite hypergeometric/Horn formula for Q_{n,k}."""
+    """Finite hypergeometric-type expression for Q_{n,k}."""
     if not _valid_index(n, k):
         return 0
 

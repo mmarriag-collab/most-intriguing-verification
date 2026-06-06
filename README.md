@@ -29,14 +29,14 @@ The implementation compares three exact constructions of the same polynomial:
 2. Operational formula
    `Q_{n,k} = (-1)^n exp(-R)[binomial(n,k) x**(n-k) y**k]`, where the
    exponential is finite on polynomials.
-3. Hypergeometric/Horn finite formula, implemented as an exact finite sum.
+3. Hypergeometric-type expression, implemented as an exact finite sum.
 
 
 ## Displaying the three constructions
 
 To display the three separately computed constructions side by side, use
 `show_three_constructions.py`.  The table includes the Matrix Rodrigues,
-operational, and hypergeometric/Horn expressions for every `0 <= k <= n`, plus
+operational, and hypergeometric expressions for every `0 <= k <= n`, plus
 the simplified difference columns `Rod - op` and `op - hyp`.
 
 The default command uses `--degree 3` and `--format latex`; omit `--output` to
@@ -97,7 +97,7 @@ but this is not a replacement for a mathematical proof.
 ## Running the web app
 
 The Streamlit app provides a formula-first interactive view of the Rodrigues,
-operational, and hypergeometric/Horn constructions for every component of a
+operational, and hypergeometric constructions for every component of a
 selected degree. It displays the basic data, all three construction formulas,
 the selected second-kind Kronecker power matrix, tabbed polynomial vectors, and
 exact difference checks. LaTeX, Markdown, and plain-text downloads include both
