@@ -6,7 +6,8 @@ from typing import Any
 
 import pandas as pd
 import streamlit as st
-from sympy import expand, factor, latex, simplify
+import sympy as sp
+from sympy import expand, latex, simplify
 
 from most_intriguing import Q_hyper, Q_operational, Q_rodrigues
 
@@ -22,22 +23,23 @@ def _validate_style(style: str) -> str:
     return normalized
 
 
-def _styled_expression(expr: Any, style: str):
+def format_expr(expr: Any, style: str = "expanded"):
     """Return an expression in the selected display style."""
-    return factor(expr) if _validate_style(style) == "factored" else expand(expr)
+    if _validate_style(style) == "factored":
+        return sp.factor(expr)
+    return sp.expand(expr)
 
 
-@st.cache_data(show_spinner=False)
-def polynomial_to_latex(expr: Any, style: str) -> str:
+def polynomial_to_latex(expr: Any, style: str = "expanded") -> str:
     """Format a SymPy polynomial as LaTeX in the selected style."""
-    return latex(_styled_expression(expr, style))
+    expr = format_expr(expr, style)
+    return sp.latex(expr)
 
 
-@st.cache_data(show_spinner=False)
-def polynomial_to_text(expr: Any, style: str) -> str:
+def polynomial_to_text(expr: Any, style: str = "expanded") -> str:
     """Format a SymPy polynomial as plain text in the selected style."""
-    styled = _styled_expression(expr, style)
-    return str(styled if style.lower() == "factored" else expand(styled))
+    expr = format_expr(expr, style)
+    return str(expr)
 
 
 @st.cache_data(show_spinner="Computing the three symbolic constructions…")
@@ -55,9 +57,9 @@ def compute_three_constructions(n: int, style: str) -> list[dict[str, Any]]:
         rows.append(
             {
                 "k": k,
-                "rod": _styled_expression(rod, style),
-                "op": _styled_expression(op, style),
-                "hyp": _styled_expression(hyp, style),
+                "rod": format_expr(rod, style),
+                "op": format_expr(op, style),
+                "hyp": format_expr(hyp, style),
                 "diff_rod_op": simplify(expand(rod - op)),
                 "diff_op_hyp": simplify(expand(op - hyp)),
             }
